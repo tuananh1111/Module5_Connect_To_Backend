@@ -15,19 +15,19 @@ public class User {
     private Long id;
 
     private String name;
-    private Long numberPhone;
+    private Long number_phone;
     private String email;
 
-    public User(Long id, String name, Long numberPhone, String email) {
+    public User(Long id, String name, Long number_phone, String email) {
         this.id = id;
         this.name = name;
-        this.numberPhone = numberPhone;
+        this.number_phone = number_phone;
         this.email = email;
     }
 
-    public User(String name, Long numberPhone, String email) {
+    public User(String name, Long number_phone, String email) {
         this.name = name;
-        this.numberPhone = numberPhone;
+        this.number_phone = number_phone;
         this.email = email;
     }
 

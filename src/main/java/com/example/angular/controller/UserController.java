@@ -13,12 +13,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
     // get all users
-    @RequestMapping(value = "/users/", method = RequestMethod.GET)
+    @GetMapping("/users/")
     public ResponseEntity<List<User>> listAllUsers(){
         List<User> list= userService.findAll();
         if (list.isEmpty()){
@@ -28,16 +30,18 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/users/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder builder){
+    @PostMapping("/users/")
+    @ResponseBody
+    public User createUser(@RequestBody User user){
         userService.save(user);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(builder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
-        return new ResponseEntity<Void>(httpHeaders, HttpStatus.CREATED);
+        return user;
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(builder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
+//        return new ResponseEntity<User>(HttpStatus.OK);
     }
 
     // get one user
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") long id) {
         System.out.println("Fetching User with id " + id);
         User user = (User) userService.findById(id);
@@ -49,7 +53,7 @@ public class UserController {
     }
 
     // update user
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    @PutMapping( "/users/{id}")
     public ResponseEntity<User> updateCustomer(@PathVariable("id") long id, @RequestBody User user) {
         System.out.println("Updating User " + id);
 
@@ -61,7 +65,7 @@ public class UserController {
         }
 
         user1.setName(user.getName());
-        user1.setNumberPhone(user.getNumberPhone());
+        user1.setNumber_phone(user.getNumber_phone());
         user1.setEmail(user.getEmail());
 
 
@@ -70,7 +74,7 @@ public class UserController {
     }
 
     // delete user
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id){
         System.out.println("Delete User with id = " + id);
         if (id == null){

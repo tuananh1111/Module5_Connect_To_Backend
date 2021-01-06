@@ -34,10 +34,12 @@ public class UserRepositoryImpl  implements UserRepository{
     }
 
     @Override
-    public void save(User model) {
+    public User save(User model) {
         if (model.getId() != null){
-            em.merge(model);
-        }else em.persist(model);
+          return   em.merge(model);
+        }
+         em.persist(model);
+        return model;
     }
 
     @Override
